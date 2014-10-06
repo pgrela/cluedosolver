@@ -1,5 +1,7 @@
 package pgrela.cluedosolver;
 
+import static pgrela.cluedosolver.builders.SuggestionBuilder.aSuggestion;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,35 +14,34 @@ public class CluedoSolverTest {
     @Test
     public void shouldGiveProperAnswer() {
         Player anna = new Player("Anna");
-        Player bartek = new Player("Bartek");
+        Player bill = new Player("Bill");
         Player cecily = new Player("Cecylia");
-        List<Player> players = Lists.newArrayList(anna, bartek, cecily);
+        List<Player> players = Lists.newArrayList(anna, bill, cecily);
 
         List<Card> cards = getSmallSetOfCards();
 
         CluedoSolver cluedoSolver = new CluedoSolverEquationMatrix(players, cards);
-        cluedoSolver.setMyCards(anna, getMyCard() );
+        cluedoSolver.setMyCards(anna, getMyCard());
 
-        cluedoSolver.addSuggestion(new Suggestion(
-                new Answer(
+        cluedoSolver.addSuggestion(
+                aSuggestion().withSuggestingPlayer(anna).withAnswer(
                         CardRoom.KITCHEN,
                         CardPerson.ZIELNICKI,
-                        CardItem.MLOTEK),
-                anna)
-                .refutedBy(bartek,CardItem.MLOTEK)
+                        CardItem.MLOTEK
+                ).withRefutingPlayer(bill).withShownCard(CardItem.MLOTEK).create()
         );
-        cluedoSolver.addSuggestion(new Suggestion(
-                new Answer(
+        cluedoSolver.addSuggestion(
+                aSuggestion().withSuggestingPlayer(anna).withAnswer(
                         CardRoom.SPA,
                         CardPerson.ZIELNICKI,
-                        CardItem.MLOTEK),
-                bartek)
-                .refutedBy(cecily,CardRoom.SPA)
+                        CardItem.MLOTEK
+                ).withRefutingPlayer(cecily).withShownCard(CardRoom.SPA).create()
         );
 
         Answer answer = cluedoSolver.calculateAnswer();
 
-        AnswerAssertion.assertThat(answer).hasItem(CardItem.NOZ).hasPerson(CardPerson.ZIELNICKI).hasRoom(CardRoom.KITCHEN);
+        AnswerAssertion.assertThat(answer).hasItem(CardItem.NOZ).hasPerson(CardPerson.ZIELNICKI).hasRoom(
+                CardRoom.KITCHEN);
     }
 
     private List<Card> getAllCards() {
@@ -50,7 +51,8 @@ public class CluedoSolverTest {
         cards.addAll(Arrays.asList(CardRoom.class.getEnumConstants()));
         return cards;
     }
-    private List<Card> getSmallSetOfCards(){
+
+    private List<Card> getSmallSetOfCards() {
         List<Card> cards = new ArrayList<>();
         cards.add(CardPerson.SIWECKA);
         cards.add(CardPerson.ZIELNICKI);
@@ -60,9 +62,11 @@ public class CluedoSolverTest {
         cards.add(CardItem.NOZ);
         return cards;
     }
-    private List<Card> getMyCard(){
+
+    private List<Card> getMyCard() {
         List<Card> cards = new ArrayList<>();
         cards.add(CardPerson.SIWECKA);
         return cards;
     }
+
 }

@@ -6,21 +6,17 @@ public class Suggestion {
     private Player refutingPlayer;
     private Card shownCard;
 
-    public Suggestion(Answer answer, Player suggestingPlayer) {
+    public Suggestion(Answer answer, Player suggestingPlayer, Player refutingPlayer, Card shownCard) {
         this.answer = answer;
         this.suggestingPlayer = suggestingPlayer;
-    }
-
-    public Suggestion refutedBy(Player refutingPlayer, Card shownCard) {
         this.refutingPlayer = refutingPlayer;
         this.shownCard = shownCard;
-        return this;
     }
-
-    public Suggestion refutedBy(Player refutingPlayer) {
-        this.refutingPlayer = refutingPlayer;
-        this.shownCard = null;
-        return this;
+    public Suggestion(Answer answer, Player suggestingPlayer, Player refutingPlayer) {
+        this(answer,suggestingPlayer,refutingPlayer, null);
+    }
+    public Suggestion(Answer answer, Player suggestingPlayer) {
+        this(answer,suggestingPlayer,null, null);
     }
 
     public Answer getAnswer() {
