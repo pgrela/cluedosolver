@@ -1,5 +1,6 @@
 package pgrela.cluedosolver;
 
+import static pgrela.cluedosolver.AnswerAssertion.assertThat;
 import static pgrela.cluedosolver.builders.SuggestionBuilder.aSuggestion;
 
 import java.util.ArrayList;
@@ -24,24 +25,36 @@ public class CluedoSolverTest {
         cluedoSolver.setMyCards(anna, getMyCard());
 
         cluedoSolver.addSuggestion(
-                aSuggestion().withSuggestingPlayer(anna).withAnswer(
-                        CardRoom.KITCHEN,
-                        CardPerson.ZIELNICKI,
-                        CardItem.MLOTEK
-                ).withRefutingPlayer(bill).withShownCard(CardItem.MLOTEK).create()
+                aSuggestion()
+                        .withSuggestingPlayer(anna)
+                        .withAnswer(
+                                CardRoom.KITCHEN,
+                                CardPerson.ZIELNICKI,
+                                CardItem.MLOTEK
+                        )
+                        .withRefutingPlayer(bill)
+                        .withShownCard(CardItem.MLOTEK)
+                        .create()
         );
         cluedoSolver.addSuggestion(
-                aSuggestion().withSuggestingPlayer(anna).withAnswer(
-                        CardRoom.SPA,
-                        CardPerson.ZIELNICKI,
-                        CardItem.MLOTEK
-                ).withRefutingPlayer(cecily).withShownCard(CardRoom.SPA).create()
+                aSuggestion()
+                        .withSuggestingPlayer(anna)
+                        .withAnswer(
+                                CardRoom.SPA,
+                                CardPerson.ZIELNICKI,
+                                CardItem.MLOTEK
+                        )
+                        .withRefutingPlayer(cecily)
+                        .withShownCard(CardRoom.SPA)
+                        .create()
         );
 
         Answer answer = cluedoSolver.calculateAnswer();
 
-        AnswerAssertion.assertThat(answer).hasItem(CardItem.NOZ).hasPerson(CardPerson.ZIELNICKI).hasRoom(
-                CardRoom.KITCHEN);
+        assertThat(answer)
+                .hasItem(CardItem.NOZ)
+                .hasPerson(CardPerson.ZIELNICKI)
+                .hasRoom(CardRoom.KITCHEN);
     }
 
     private List<Card> getAllCards() {
